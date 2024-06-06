@@ -11,6 +11,7 @@ public class JavaConsole {
 
     static int indexCate = 0;
     static int indexProduct = 0;
+    static int indexArraysProdcuct = 0;
 
     public static void main(String[] args) throws ParseException {
         allMenu();
@@ -147,12 +148,16 @@ public class JavaConsole {
                     sort();
                     break;
                 case 4:
+                    updateProduct();
                     break;
                 case 5:
+                    deleteProduct();
                     break;
                 case 6:
+                    searchByName();
                     break;
                 case 7:
+                    searchByPrice();
                     break;
                 case 8:
                     allMenu();
@@ -163,12 +168,8 @@ public class JavaConsole {
     public static void addProduct() throws ParseException {
         Product product = new Product();
         product.inputData(scanner,products,indexProduct,categories);
-        for (int i=0;i<products.length;i++){
-            if (products[i] == null) {
-                products[i]=product;
-                break;
-            }
-        }
+        products[indexArraysProdcuct] = product;
+        indexArraysProdcuct++;
     }
     public static void listProduct(){
         for (Product product : products) {
@@ -177,4 +178,58 @@ public class JavaConsole {
             }
         }
     }
+    public static void sort(){
+        for(int i = 0; i<indexArraysProdcuct; i++){
+            for(int j =0;j<indexArraysProdcuct-i-1;j++){
+                if(products[j].getPrice()>products[j+1].getPrice()){
+                   Product temp = products[j];
+                    products[j] = products[j+1];
+                    products[j+1] = temp;
+                }
+            }
+        }
+        System.out.println("Sắp xếp thành công");
+    }
+    public static void updateProduct() throws ParseException {
+        System.out.println("Nhập mã sản phẩm cần sửa");
+        String productId = scanner.nextLine();
+        for (int i=0;i<indexArraysProdcuct;i++){
+            if(products[i].getProductId().equals(productId)){
+                products[i].inputData(scanner,products,indexProduct,categories);
+                break;
+            }
+        }
+    }
+    public static void deleteProduct(){
+        System.out.println("Nhập mã sản phẩm cần xoá");
+        String productId = scanner.nextLine();
+        for (int i=0;i<indexArraysProdcuct;i++){
+            if(products[i]!=null && products[i].getProductId().equals(productId)){
+               products[i] = products[i+1];
+               indexArraysProdcuct--;
+               break;
+            }
+        }
+    }
+    public static void searchByName(){
+        System.out.println("Nhập tên sản phẩm cần tìm");
+        String productName = scanner.nextLine().toLowerCase();
+        for (int i=0;i<indexArraysProdcuct;i++){
+            if(products[i].getProductName().toLowerCase().contains(productName)){
+                System.out.println(products[i]);
+            }
+        }
+    }
+    public static void searchByPrice(){
+        System.out.println("Nhập giá từ");
+        int price = Integer.parseInt(scanner.nextLine());
+        System.out.println("Đến giá");
+        int priceEnd = Integer.parseInt(scanner.nextLine());
+        for (int i=0;i<indexArraysProdcuct;i++){
+            if(products[i].getPrice()>= price && products[i].getPrice() <= priceEnd){
+                System.out.println(products[i]);
+            }
+        }
+    }
+
 }

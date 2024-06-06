@@ -99,13 +99,16 @@ public class Product {
         }
         // Nhập mã sản phẩm
         boolean checkId = true;
+        String checkProductId = null;
         do {
             while (true) {
                 System.out.println("Nhập mã sản phẩm đồ uống, bắt đầu bằng ký tự C S A và có độ dài là 4");
-                productId = scanner.nextLine();
-                if (productId.length() <= 4 && productId.charAt(0) == 'C' || productId.length() <= 4 && productId.charAt(0) == 'S' || productId.length() <= 4 && productId.charAt(0) == 'A') {
+                checkProductId = scanner.nextLine();
+                if (checkProductId.length() <= 4 && checkProductId.charAt(0) == 'C' || checkProductId.length() <= 4 && checkProductId.charAt(0) == 'S' || checkProductId.length() <= 4 && checkProductId.charAt(0) == 'A') {
                     checkId = false;
                     break;
+                }else{
+                    System.out.println("Phải bắt đầu bằng C S A  và có độ dài bằng 4");
                 }
             }
             int countProduct = 0;
@@ -116,21 +119,27 @@ public class Product {
             }
             if (countProduct > 0) {
                 for (int i = 0; i < arrProduct.length; i++) {
-                    if (arrProduct[i] != null && productId.equals(arrProduct[i].getProductId())) {
+                    if (arrProduct[i] != null && checkProductId.equals(arrProduct[i].getProductId())) {
                         checkId = true;
+                        System.out.println("Mã sản phẩm đã tồn tại");
                         break;
                     }
                 }
             }
+            if(!checkId){
+                productId = checkProductId;
+            }
+            System.out.println(checkId);
 
         } while (checkId);
         //Nhập tên sản phẩm
         boolean checkName = true;
+        String checkProductName = "";
         do {
             while (true) {
                 System.out.println("Nhập tên sản phẩm");
-                productName = scanner.nextLine();
-                if (productName.length() >= 10 && productName.length() <= 50) {
+                checkProductName = scanner.nextLine();
+                if (checkProductName.length() >= 10 && checkProductName.length() <= 50) {
                     checkName = false;
                     break;
                 }
@@ -144,9 +153,8 @@ public class Product {
                 }
             }
             if (countProduct > 0) {
-                System.out.println(productName);
                 for (int i = 0; i < arrProduct.length; i++) {
-                    if (arrProduct[i] != null && productName.equals(arrProduct[i].getProductName())) {
+                    if (arrProduct[i] != null && checkProductName.equals(arrProduct[i].getProductName())) {
                         checkName = true;
                         break;
                     }
@@ -155,6 +163,9 @@ public class Product {
                     System.out.println("Tên đã tồn tại");
                 }
 
+            }
+            if(!checkName){
+                productName = checkProductName;
             }
         } while (checkName);
         //Nhập giá tiền
